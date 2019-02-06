@@ -1,0 +1,1 @@
+export const CHECKSUM: string = 'CHECKSUM';
