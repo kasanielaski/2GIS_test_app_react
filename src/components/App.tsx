@@ -21,10 +21,12 @@ class App extends Component<any, any> {
         const storedHash = localStorage.getItem(CHECKSUM);
 
         if (storedHash && storedHash !== hash) {
-            // обнуляем стейт книг
+            // обнуляем стейт книг в LS
             this.props.fetchDataset(items);
+            localStorage.clear();
             localStorage.setItem(CHECKSUM, hash)
         } else {
+            // подтягиваем последний стейт книг из LS
             this.props.fetchDataset(items);
         }
     }

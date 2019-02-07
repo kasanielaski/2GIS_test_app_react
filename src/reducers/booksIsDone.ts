@@ -1,9 +1,10 @@
 import { ADD_TAG, CLEAR_TAGS } from '../actions/ActionType';
-import { TAGS } from '../config';
+import { IModifiedBooks } from '../interfaces';
+import { IS_DONE } from '../config';
 
 import { saveLS } from '../helpers/syncLS';
 
-const tags = (state: any = [], action: any) => {
+const booksIsDone = (state: any = [], action: any) => {
     switch (action.type) {
         case ADD_TAG:
             return (
@@ -11,7 +12,7 @@ const tags = (state: any = [], action: any) => {
                     ...state,
                     action.payload
                 ],
-                saveLS(TAGS, JSON.stringify(state))
+                saveLS(IS_DONE, JSON.stringify(state))
             )
         case CLEAR_TAGS:
             return [];
@@ -20,4 +21,4 @@ const tags = (state: any = [], action: any) => {
     }
 };
 
-export default tags;
+export default booksIsDone;
