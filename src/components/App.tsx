@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 // @ts-ignore
 import md5 from 'md5';
 
 import { fetchDataset } from '../actions/Actions';
 import { CHECKSUM } from '../config';
+
+import Header from './Header';
+
+const Wrapper = styled.div`
+    min-width: 480px;
+    max-width: 1280px;
+    border: 1px solid #999;
+`;
 
 const mapDispathToProps = {
     fetchDataset
@@ -33,7 +42,10 @@ class App extends Component<any, any> {
 
     render () {
         return (
-            <h1>app</h1>
+            <Wrapper>
+                <Header></Header>
+                <h1>app</h1>
+            </Wrapper>
         );
     }
 };
