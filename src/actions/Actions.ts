@@ -1,13 +1,19 @@
 import { action } from 'typesafe-actions';
 
 import {
-    TOGGLE_STATUS,
     FETCH_DATASET,
+    ADD_TAG,
+    CLEAR_TAGS,
+    TOGGLE_STATUS,
     LOAD_STORE,
     SAVE_STORE
 } from './ActionType';
 
-export const fetchDataset = () => action(FETCH_DATASET);
+export const fetchDataset = (payload: Object[]) => action(FETCH_DATASET, payload);
+
+export const addTag = (payload: string) => action(ADD_TAG, payload);
+
+export const clearTags = () => action(CLEAR_TAGS);
 
 export const saveStore = () => action(SAVE_STORE);
 

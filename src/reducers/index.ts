@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux';
-import books from './books';
+
+import dataset from './dataset';
+import tags from './tags';
 
 export default combineReducers({
-    books
+    dataset,
+    tags
 });
