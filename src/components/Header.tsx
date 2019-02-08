@@ -15,11 +15,8 @@ const Tab = styled.div`
     text-align: center;
     border-bottom: 1px solid #999;
 
-    &:last-of-type {
+    &:nth-of-type(2) {
         border-left: 1px solid #999;
-    }
-    
-    &:first-of-type {
         border-right: 1px solid #999;
     }
 `;

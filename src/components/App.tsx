@@ -8,6 +8,7 @@ import { fetchDataset } from '../actions/Actions';
 import { CHECKSUM } from '../config';
 
 import Header from './Header';
+import BooksList from './BooksList';
 
 const Wrapper = styled.div`
     min-width: 480px;
@@ -43,8 +44,8 @@ class App extends Component<any, any> {
     render () {
         return (
             <Wrapper>
-                <Header></Header>
-                <h1>app</h1>
+                <Header />
+                <BooksList />
             </Wrapper>
         );
     }
