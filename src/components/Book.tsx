@@ -48,28 +48,49 @@ const Tag = styled.li`
     }
 `;
 
-const Book = ({ author, title, description, tags, status='status' }:
-    { author: string, title: string, description: string, tags: string[], status?: string }
-    ) => (
-    <Wrapper>
-        <Author>
-            <span>{author}</span>
-        </Author>
-        <Container>
-            <Title>{title}</Title>
-            <Status>{status}</Status>
-        </Container>
-        <Description>
-            <span>{description}</span>
-        </Description>
-        <ul>
-            {tags.map(tag =>
-                <Tag>
-                    #{tag}
-                </Tag>
-            )}
-        </ul>
-    </Wrapper>
-)
+const Book = ({ id, author, title, description, tags, status }:
+    { id: string, author: string, title: string, description: string, tags: string[], status?: string },
+    { addTag } : { addTag: any }
+    ) => {
+    let currentStatus;
+    switch (status) {
+        case undefined:
+            currentStatus = 'start reading';
+            break;
+        case 'progress':
+            currentStatus = 'finish reading';
+            break;
+        case 'done':
+            currentStatus = 'return in "to read"';
+            break;
+        default:
+            throw new Error('unknown status');
+    }
+
+    return (
+        <Wrapper>
+            <Author>
+                <span>{author}</span>
+            </Author>
+            <Container>
+                <Title>{title}</Title>
+                <Status>{currentStatus}</Status>
+            </Container>
+            <Description>
+                <span>{description}</span>
+            </Description>
+            <ul>
+                {tags.map((tag, index: number) =>
+                    <Tag
+                        key={`${id}_${index}`}
+                        onClick={() => addTag(tag)}
+                    >
+                        #{tag}
+                    </Tag>
+                )}
+            </ul>
+        </Wrapper>
+    )
+}
 
 export default Book;

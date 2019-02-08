@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import { addTag } from '../actions/Actions';
+
 import Book from './Book';
 
 const Wrapper = styled.div`
@@ -11,6 +13,13 @@ const Wrapper = styled.div`
 
 const mapStateToProps = (state:any) => state;
 
+const mapDispatchToProps = {
+    addTag
+}
+
+// const mapDispatchToProps = (dispatch: any) => ({
+//     addTag: (payload: string) => dispatch(addTag(payload))
+// });
 
 class BookList extends Component<any, any>{
     render () {
@@ -26,15 +35,16 @@ class BookList extends Component<any, any>{
                 currentList =  this.props.booksIsDone;
                 break;
             default:
-                throw new Error(`unknown filter`);
+                throw new Error('unknown filter');
         }
 
         return (
             <Wrapper>
                 {currentList.map((book: any) =>
                     <Book
-                        key={`${book.id}`}
+                        key={book.id}
                         {...book}
+                        addTag={addTag}
                     />
                 )}
             </Wrapper>
@@ -44,5 +54,5 @@ class BookList extends Component<any, any>{
 
 export default connect (
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(BookList);
