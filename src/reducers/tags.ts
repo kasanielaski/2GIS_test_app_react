@@ -3,6 +3,7 @@ import { TAGS } from '../config';
 
 import { saveLS } from '../helpers/syncLS';
 
+// переделать стейт на тип Set без дубликатов
 const tags = (state: any = [], action: any) => {
     switch (action.type) {
         case ADD_TAG:

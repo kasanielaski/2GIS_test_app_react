@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { addTag, saveTags } from '../actions/Actions';
+import { IBook } from '../interfaces';
 
 import Book from './Book';
 
@@ -19,31 +20,28 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 class BookList extends Component<any, any>{
-
     tagHandler (payload: string) {
         this.props.addTag(payload);
         this.props.saveTags();
     }
 
-    render () {
-        let currentList;
+    getCurrentList (): IBook[] {
         switch (this.props.visibilityFilter) {
             case '':
-                currentList = this.props.dataset;
-                break;
+                return this.props.dataset;
             case 'progress':
-                currentList = this.props.booksInProgress;
-                break;
+                return this.props.booksInProgress;
             case 'done':
-                currentList =  this.props.booksIsDone;
-                break;
+                return this.props.booksIsDone;
             default:
                 throw new Error('unknown filter');
         }
+    }
 
+    render () {
         return (
             <Wrapper>
-                {currentList.map((book: any) =>
+                {this.getCurrentList().map((book: any) =>
                     <Book
                         key={book.id}
                         addTag={(payload: string) => this.tagHandler(payload)}

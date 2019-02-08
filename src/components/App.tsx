@@ -9,22 +9,23 @@ import { CHECKSUM } from '../config';
 
 import Header from './Header';
 import BooksList from './BooksList';
+import Tags from './Tags';
 
 const Wrapper = styled.div`
     min-width: 480px;
     max-width: 1280px;
+    margin: 100px auto;
     border: 1px solid #999;
 `;
 
+const mapStateToProps = (state: any) => state;
+
+// фетчить сохраненные объект книг + теги + фильтры
 const mapDispathToProps = {
     fetchDataset
 };
 
 class App extends Component<any, any> {
-    constructor(props: any) {
-        super(props);
-    }
-
     componentWillMount() {
         const { items } = require('../data/10_items.json');
         const hash = md5(items);
@@ -45,6 +46,10 @@ class App extends Component<any, any> {
         return (
             <Wrapper>
                 <Header />
+                {this.props.tags.length > 0
+                    ? <Tags tags={this.props.tags}/>
+                    : null
+                }
                 <BooksList />
             </Wrapper>
         );
@@ -52,6 +57,6 @@ class App extends Component<any, any> {
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispathToProps
 )(App);
