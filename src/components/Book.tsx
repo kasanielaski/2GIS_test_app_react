@@ -49,7 +49,7 @@ const Tag = styled.li`
 `;
 
 const Book = ({ id, author, title, description, tags, status, addTag }:
-    { id: string, author: string, title: string, description: string, tags: string[], status?: string, addTag: any }
+    { id: string, author: string, title: string, description: string, tags: string[], status?: string, addTag: (payload: string) => void }
     ) => {
     let currentStatus;
     switch (status) {

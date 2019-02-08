@@ -6,29 +6,43 @@ const Wrapper = styled.div`
     border-bottom: 1px solid #999;
 `;
 
-const Tag = styled.span`
+const TagList = styled.ul`
+    display: inline-block;
+`;
+
+const Tag = styled.li`
+    display: inline-block;
     background-color: #ddd;
+    padding: 6px 3px;
     margin-left: 6px;
 `;
 
-const Clear = styled.span`
+const Clear = styled.li`
+    display: inline-block;
     text-decoration: underline;
     margin-left: 6px;
+    cursor: pointer;
 `;
 
-const Tags = ({ tags }: { tags: string[] }) => {
+const Tags = ({ tags, clearTags }: { tags: string[], clearTags: any }) => {
     return (
         <Wrapper>
             Filtered by tags:
-            {tags.map((tag, index: number) =>
-                    <Tag
-                        key={`${tag}_${index}`}
-                    >
-                        #{tag}
-                    </Tag>
-                )
-            }
-            <Clear>(clear)</Clear>
+            <TagList>
+                {tags.map((tag, index: number) =>
+                        <Tag
+                            key={`${tag}_${index}`}
+                        >
+                            #{tag}
+                        </Tag>
+                    )
+                }
+                <Clear
+                    onClick={() => clearTags()}
+                >
+                    clear
+                </Clear>
+            </TagList>
         </Wrapper>
     );
 };

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 // @ts-ignore
 import md5 from 'md5';
 
-import { fetchDataset } from '../actions/Actions';
+import { fetchDataset, clearTags, saveTags, fetchTags } from '../actions/Actions';
 import { CHECKSUM } from '../config';
 
 import Header from './Header';
@@ -22,7 +22,10 @@ const mapStateToProps = (state: any) => state;
 
 // фетчить сохраненные объект книг + теги + фильтры
 const mapDispathToProps = {
-    fetchDataset
+    fetchDataset,
+    clearTags,
+    saveTags,
+    fetchTags
 };
 
 class App extends Component<any, any> {
@@ -35,11 +38,18 @@ class App extends Component<any, any> {
             // обнуляем стейт книг в LS
             this.props.fetchDataset(items);
             localStorage.clear();
-            localStorage.setItem(CHECKSUM, hash)
+            localStorage.setItem(CHECKSUM, hash);
         } else {
             // подтягиваем последний стейт книг из LS
+            this.props.fetchTags();
             this.props.fetchDataset(items);
+            localStorage.setItem(CHECKSUM, hash);
         }
+    }
+
+    tagHandler () {
+        this.props.clearTags();
+        this.props.saveTags();
     }
 
     render () {
@@ -47,7 +57,10 @@ class App extends Component<any, any> {
             <Wrapper>
                 <Header />
                 {this.props.tags.length > 0
-                    ? <Tags tags={this.props.tags}/>
+                    ? <Tags
+                        tags={this.props.tags}
+                        clearTags={() => this.tagHandler()}
+                    />
                     : null
                 }
                 <BooksList />
