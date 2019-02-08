@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { addTag } from '../actions/Actions';
+import { addTag, saveTags } from '../actions/Actions';
 
 import Book from './Book';
 
@@ -13,15 +13,18 @@ const Wrapper = styled.div`
 
 const mapStateToProps = (state:any) => state;
 
-const mapDispatchToProps = {
-    addTag
-}
-
-// const mapDispatchToProps = (dispatch: any) => ({
-//     addTag: (payload: string) => dispatch(addTag(payload))
-// });
+const mapDispatchToProps = (dispatch: any) => ({
+    addTag: (payload: string) => dispatch(addTag(payload)),
+    saveTags: () => dispatch(saveTags())
+});
 
 class BookList extends Component<any, any>{
+
+    tagHandler (payload: string) {
+        this.props.addTag(payload);
+        this.props.saveTags();
+    }
+
     render () {
         let currentList;
         switch (this.props.visibilityFilter) {
@@ -43,8 +46,8 @@ class BookList extends Component<any, any>{
                 {currentList.map((book: any) =>
                     <Book
                         key={book.id}
+                        addTag={(payload: string) => this.tagHandler(payload)}
                         {...book}
-                        addTag={addTag}
                     />
                 )}
             </Wrapper>

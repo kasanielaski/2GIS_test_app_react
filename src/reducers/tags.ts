@@ -1,4 +1,4 @@
-import { ADD_TAG, CLEAR_TAGS } from '../actions/ActionType';
+import { ADD_TAG, CLEAR_TAGS, SAVE_TAGS } from '../actions/ActionType';
 import { TAGS } from '../config';
 
 import { saveLS } from '../helpers/syncLS';
@@ -6,15 +6,15 @@ import { saveLS } from '../helpers/syncLS';
 const tags = (state: any = [], action: any) => {
     switch (action.type) {
         case ADD_TAG:
-            return (
-                state = [
-                    ...state,
-                    action.payload
-                ],
-                saveLS(TAGS, JSON.stringify(state))
-            )
+            return ([
+                ...state,
+                action.payload
+            ])
         case CLEAR_TAGS:
             return [];
+        case SAVE_TAGS:
+            saveLS(TAGS, JSON.stringify(state));
+            return state;
         default:
             return state;
     }
