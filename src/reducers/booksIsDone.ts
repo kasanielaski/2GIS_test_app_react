@@ -1,5 +1,4 @@
 import { ADD_TAG, CLEAR_TAGS } from '../actions/ActionType';
-import { IModifiedBooks } from '../interfaces';
 import { IS_DONE } from '../config';
 
 import { saveLS } from '../helpers/syncLS';

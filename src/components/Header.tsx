@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 
 const Tab = styled.div`
     width: 100%;
-    padding: 6px 12px;
+    padding: 10px 20px;
     font-size: 14px;
     vertical-align: middle;
     text-align: center;

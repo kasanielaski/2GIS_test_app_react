@@ -1,7 +1,7 @@
 import { FETCH_DATASET } from '../actions/ActionType';
-import { IDataset } from '../interfaces';
+import { IBook } from '../interfaces';
 
-const dataset = (state: IDataset[] = [], action: any) => {
+const dataset = (state: IBook[] = [], action: any) => {
     switch (action.type) {
         case FETCH_DATASET:
         // @ts-ignore
