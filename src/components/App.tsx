@@ -11,7 +11,8 @@ import {
     fetchTags,
     setVisibilityFilter,
     saveVisibilityFilter,
-    fetchVisibilityFilter
+    fetchVisibilityFilter,
+    fetchBooks
 } from '../actions/Actions';
 import { CHECKSUM } from '../config';
 
@@ -36,7 +37,8 @@ const mapDispathToProps = {
     fetchTags,
     setVisibilityFilter,
     saveVisibilityFilter,
-    fetchVisibilityFilter
+    fetchVisibilityFilter,
+    fetchBooks
 };
 
 class App extends Component<any, any> {
@@ -53,6 +55,7 @@ class App extends Component<any, any> {
         } else {
             // подтягиваем последний стейт книг из LS
             this.props.fetchTags();
+            this.props.fetchBooks();
             // this.props.fetchVisibilityFilter();
             this.props.fetchDataset(items);
             localStorage.setItem(CHECKSUM, hash);

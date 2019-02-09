@@ -7,7 +7,7 @@ const Wrapper = styled.div`
     padding: 10px;
     border-top: 1px solid #999;
 
-    &:first-of-type{
+    &:first-of-type {
         border-top: none;
     }
 `;
@@ -30,6 +30,8 @@ const Title = styled.span`
 const Status = styled.span`
     font-size: 16px;
     font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
 `;
 
 const Description = styled.div`
@@ -48,9 +50,25 @@ const Tag = styled.li`
     }
 `;
 
-const Book = ({ id, author, title, description, tags, status, addTag }:
-    { id: string, author: string, title: string, description: string, tags: string[], status?: string, addTag: (payload: string) => void }
-    ) => {
+const Book = ({
+    id,
+    author,
+    title,
+    description,
+    tags,
+    status,
+    addTag,
+    changeStatus
+}: {
+    id: string;
+    author: string;
+    title: string;
+    description: string;
+    tags: string[];
+    status?: string;
+    addTag: (payload: string) => void;
+    changeStatus: (payload: any) => void;
+}) => {
     let currentStatus;
     switch (status) {
         case undefined:
@@ -73,23 +91,33 @@ const Book = ({ id, author, title, description, tags, status, addTag }:
             </Author>
             <Container>
                 <Title>{title}</Title>
-                <Status>{currentStatus}</Status>
+                <Status
+                    onClick={() =>
+                        changeStatus({
+                            id,
+                            author,
+                            title,
+                            description,
+                            tags,
+                            status
+                        })
+                    }
+                >
+                    {currentStatus}
+                </Status>
             </Container>
             <Description>
                 <span>{description}</span>
             </Description>
             <ul>
-                {tags.map((tag, index: number) =>
-                    <Tag
-                        key={`${id}_${index}`}
-                        onClick={() => addTag(tag)}
-                    >
+                {tags.map((tag, index: number) => (
+                    <Tag key={`${id}_${index}`} onClick={() => addTag(tag)}>
                         #{tag}
                     </Tag>
-                )}
+                ))}
             </ul>
         </Wrapper>
-    )
-}
+    );
+};
 
 export default Book;

@@ -1,8 +1,9 @@
 import { IS_DONE } from '../config';
+import { IBook } from '../interfaces';
 
-import { saveLS } from '../helpers/syncLS';
+import { saveLS, loadLS } from '../helpers/syncLS';
 
-const booksIsDone = (state: any = [], action: any) => {
+const booksIsDone = (state: IBook[] = [], action: any) => {
     switch (action.type) {
         default:
             return state;

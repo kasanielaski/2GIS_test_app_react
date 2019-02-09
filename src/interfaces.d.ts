@@ -8,9 +8,5 @@ export interface IBook {
     title: string;
     description: string;
     tags: string[];
-    status?: Status
+    status?: any;
 }
-
-// export interface IModifiedBooks extends IDataset {
-//     status: Status
-// }
