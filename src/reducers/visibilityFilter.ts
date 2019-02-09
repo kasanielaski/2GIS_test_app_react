@@ -1,7 +1,7 @@
 import {
     SET_VISIBILITY_FILTER,
     SAVE_VISIBILITY_FILTER,
-    FETCH_VISIBILITY_FILTER
+    FETCH_STORED_STATE
 } from '../actions/ActionType';
 import { VISIBILITY_FILTER } from '../config';
 
@@ -14,9 +14,8 @@ const visibilityFilter = (state: any = '', action: any) => {
         case SAVE_VISIBILITY_FILTER:
             saveLS(VISIBILITY_FILTER, JSON.stringify(state));
             return state;
-        case FETCH_VISIBILITY_FILTER:
-            const savedValue = JSON.stringify(loadLS(VISIBILITY_FILTER));
-            return (state = savedValue ? savedValue : '');
+        case FETCH_STORED_STATE:
+            return (state = JSON.parse(loadLS(VISIBILITY_FILTER)!));
         default:
             return state;
     }

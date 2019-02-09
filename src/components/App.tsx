@@ -6,13 +6,11 @@ import md5 from 'md5';
 
 import {
     fetchDataset,
+    fetchStoredState,
     clearTags,
     saveTags,
-    fetchTags,
     setVisibilityFilter,
-    saveVisibilityFilter,
-    fetchVisibilityFilter,
-    fetchBooks
+    saveVisibilityFilter
 } from '../actions/Actions';
 import { CHECKSUM } from '../config';
 
@@ -32,13 +30,11 @@ const mapStateToProps = (state: any) => state;
 // фетчить сохраненные объект книг + теги + фильтры
 const mapDispathToProps = {
     fetchDataset,
+    fetchStoredState,
     clearTags,
     saveTags,
-    fetchTags,
     setVisibilityFilter,
-    saveVisibilityFilter,
-    fetchVisibilityFilter,
-    fetchBooks
+    saveVisibilityFilter
 };
 
 class App extends Component<any, any> {
@@ -54,9 +50,7 @@ class App extends Component<any, any> {
             localStorage.setItem(CHECKSUM, hash);
         } else {
             // подтягиваем последний стейт книг из LS
-            this.props.fetchTags();
-            this.props.fetchBooks();
-            // this.props.fetchVisibilityFilter();
+            this.props.fetchStoredState();
             this.props.fetchDataset(items);
             localStorage.setItem(CHECKSUM, hash);
         }

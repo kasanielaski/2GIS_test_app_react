@@ -1,4 +1,8 @@
-import { ADD_BOOK, FETCH_BOOKS, SAVE_BOOKS } from '../actions/ActionType';
+import {
+    ADD_BOOK,
+    SAVE_BOOKS,
+    FETCH_STORED_STATE
+} from '../actions/ActionType';
 import { IN_PROGRESS } from '../config';
 
 import { saveLS, loadLS } from '../helpers/syncLS';
@@ -22,7 +26,7 @@ const booksInProgress = (state: IBook[] = [], action: any) => {
         case SAVE_BOOKS:
             saveLS(IN_PROGRESS, JSON.stringify(state));
             return state;
-        case FETCH_BOOKS:
+        case FETCH_STORED_STATE:
             return (state = [...JSON.parse(loadLS(IN_PROGRESS)!)]);
         default:
             return state;

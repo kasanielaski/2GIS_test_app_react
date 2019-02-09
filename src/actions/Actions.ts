@@ -5,31 +5,28 @@ import {
     ADD_TAG,
     CLEAR_TAGS,
     SAVE_TAGS,
-    FETCH_TAGS,
     SET_VISIBILITY_FILTER,
     SAVE_VISIBILITY_FILTER,
-    FETCH_VISIBILITY_FILTER,
     REMOVE_BOOK,
     ADD_BOOK,
     SAVE_BOOKS,
-    FETCH_BOOKS
+    FETCH_STORED_STATE
 } from './ActionType';
 import { IBook } from '../interfaces';
 
 export const fetchDataset = (payload: Object[]) =>
     action(FETCH_DATASET, payload);
 
+export const fetchStoredState = () => action(FETCH_STORED_STATE);
+
 export const addTag = (payload: string) => action(ADD_TAG, payload);
 export const clearTags = () => action(CLEAR_TAGS);
 export const saveTags = () => action(SAVE_TAGS);
-export const fetchTags = () => action(FETCH_TAGS);
 
 export const setVisibilityFilter = (payload: string) =>
     action(SET_VISIBILITY_FILTER, payload);
 export const saveVisibilityFilter = () => action(SAVE_VISIBILITY_FILTER);
-export const fetchVisibilityFilter = () => action(FETCH_VISIBILITY_FILTER);
 
 export const removeBook = (payload: string) => action(REMOVE_BOOK, payload);
 export const addBook = (payload: IBook) => action(ADD_BOOK, payload);
 export const saveBooks = () => action(SAVE_BOOKS);
-export const fetchBooks = () => action(FETCH_BOOKS);
