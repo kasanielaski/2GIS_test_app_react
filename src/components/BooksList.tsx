@@ -12,20 +12,25 @@ const Wrapper = styled.div`
     flex-direction: column;
 `;
 
-const mapStateToProps = (state:any) => state;
+const EmptyList = styled.span`
+    padding: 40px 0;
+    margin: 0 auto;
+`;
+
+const mapStateToProps = (state: any) => state;
 
 const mapDispatchToProps = (dispatch: any) => ({
     addTag: (payload: string) => dispatch(addTag(payload)),
     saveTags: () => dispatch(saveTags())
 });
 
-class BookList extends Component<any, any>{
-    tagHandler (payload: string) {
+class BookList extends Component<any, any> {
+    tagHandler(payload: string) {
         this.props.addTag(payload);
         this.props.saveTags();
     }
 
-    getCurrentList (): IBook[] {
+    getCurrentList(): IBook[] {
         switch (this.props.visibilityFilter) {
             case '':
                 return this.props.dataset;
@@ -34,26 +39,34 @@ class BookList extends Component<any, any>{
             case 'done':
                 return this.props.booksIsDone;
             default:
-                throw new Error('unknown filter');
+                throw new Error(
+                    `unknown filter: ${this.props.visibilityFilter}`
+                );
         }
     }
 
-    render () {
+    render() {
         return (
             <Wrapper>
-                {this.getCurrentList().map((book: any) =>
-                    <Book
-                        key={book.id}
-                        addTag={(payload: string) => this.tagHandler(payload)}
-                        {...book}
-                    />
+                {this.getCurrentList().length > 0 ? (
+                    this.getCurrentList().map((book: any) => (
+                        <Book
+                            key={book.id}
+                            addTag={(payload: string) =>
+                                this.tagHandler(payload)
+                            }
+                            {...book}
+                        />
+                    ))
+                ) : (
+                    <EmptyList>List is empty</EmptyList>
                 )}
             </Wrapper>
         );
     }
 }
 
-export default connect (
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(BookList);

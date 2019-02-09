@@ -7,24 +7,19 @@ import {
     SAVE_TAGS,
     FETCH_TAGS,
     SET_VISIBILITY_FILTER,
-    TOGGLE_STATUS,
-    LOAD_STORE,
-    SAVE_STORE
+    SAVE_VISIBILITY_FILTER,
+    FETCH_VISIBILITY_FILTER
 } from './ActionType';
 
-export const fetchDataset = (payload: Object[]) => action(FETCH_DATASET, payload);
+export const fetchDataset = (payload: Object[]) =>
+    action(FETCH_DATASET, payload);
 
 export const addTag = (payload: string) => action(ADD_TAG, payload);
 export const clearTags = () => action(CLEAR_TAGS);
 export const saveTags = () => action(SAVE_TAGS);
 export const fetchTags = () => action(FETCH_TAGS);
 
-export const setVisibilityFilter = (payload: string) => action(SET_VISIBILITY_FILTER, payload);
-
-export const saveStore = () => action(SAVE_STORE);
-export const loadStore = () => action(LOAD_STORE);
-
-export const toggleStatus = (payload: {
-    id: string;
-    status: string
-}) => action(TOGGLE_STATUS, payload);
+export const setVisibilityFilter = (payload: string) =>
+    action(SET_VISIBILITY_FILTER, payload);
+export const saveVisibilityFilter = () => action(SAVE_VISIBILITY_FILTER);
+export const fetchVisibilityFilter = () => action(FETCH_VISIBILITY_FILTER);

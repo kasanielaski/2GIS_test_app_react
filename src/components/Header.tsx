@@ -14,6 +14,7 @@ const Tab = styled.div`
     vertical-align: middle;
     text-align: center;
     border-bottom: 1px solid #999;
+    cursor: pointer;
 
     &:nth-of-type(2) {
         border-left: 1px solid #999;
@@ -24,23 +25,25 @@ const Tab = styled.div`
 const Header = ({
     toRead,
     inProgress,
-    isDone
+    isDone,
+    changeFilter
 }: {
     toRead: number;
     inProgress: number;
     isDone: number;
+    changeFilter: any;
 }) => (
     <Wrapper>
-        <Tab>
+        <Tab onClick={() => changeFilter('')}>
             {/* @todo router link */}
             To read
             {/* @todo counter */}
             <span>({toRead})</span>
         </Tab>
-        <Tab>
+        <Tab onClick={() => changeFilter('progress')}>
             In progress <span>({inProgress})</span>
         </Tab>
-        <Tab>
+        <Tab onClick={() => changeFilter('done')}>
             Done <span>({isDone})</span>
         </Tab>
     </Wrapper>

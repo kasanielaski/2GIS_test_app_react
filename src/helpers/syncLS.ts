@@ -4,12 +4,12 @@ export const saveLS = (key: string, payload: string): void => {
     } catch (error) {
         throw new Error(`There is problem with LS: ${error}`);
     }
-}
+};
 
-export const loadLS = (key: string): string | null => {
+export const loadLS = (key: string): string | undefined => {
     try {
-        return localStorage.getItem(key);
+        return localStorage.getItem(key)!;
     } catch (error) {
         throw new Error(`There is problem with LS: ${error}`);
     }
-}
+};
