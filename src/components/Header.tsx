@@ -13,7 +13,10 @@ const Tab = styled.div`
     font-size: 14px;
     vertical-align: middle;
     text-align: center;
-    border-bottom: 1px solid #999;
+    ${({ isActive }: { isActive: boolean }) =>
+        isActive
+            ? 'border-bottom: none; font-weight: bold'
+            : 'border-bottom: 1px solid #999'}
     cursor: pointer;
 
     &:nth-of-type(2) {
@@ -26,24 +29,32 @@ const Header = ({
     toRead,
     inProgress,
     isDone,
-    changeFilter
+    changeFilter,
+    currentFilter
 }: {
     toRead: number;
     inProgress: number;
     isDone: number;
     changeFilter: any;
+    currentFilter: string;
 }) => (
     <Wrapper>
-        <Tab onClick={() => changeFilter('')}>
+        <Tab onClick={() => changeFilter('')} isActive={currentFilter === ''}>
             {/* @todo router link */}
             To read
             {/* @todo counter */}
             <span>({toRead})</span>
         </Tab>
-        <Tab onClick={() => changeFilter('progress')}>
+        <Tab
+            onClick={() => changeFilter('progress')}
+            isActive={currentFilter === 'progress'}
+        >
             In progress <span>({inProgress})</span>
         </Tab>
-        <Tab onClick={() => changeFilter('done')}>
+        <Tab
+            onClick={() => changeFilter('done')}
+            isActive={currentFilter === 'done'}
+        >
             Done <span>({isDone})</span>
         </Tab>
     </Wrapper>

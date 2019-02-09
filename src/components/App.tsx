@@ -119,6 +119,7 @@ class App extends Component<any, any> {
                     toRead={this.props.dataset.length}
                     inProgress={this.props.booksInProgress.length}
                     isDone={this.props.booksIsDone.length}
+                    currentFilter={this.props.visibilityFilter}
                     changeFilter={(payload: string) =>
                         this.changeFilter(payload)
                     }
