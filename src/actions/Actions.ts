@@ -7,8 +7,12 @@ import {
     SAVE_TAGS,
     SET_VISIBILITY_FILTER,
     SAVE_VISIBILITY_FILTER,
-    REMOVE_BOOK,
-    ADD_BOOK,
+    ADD_TODO_BOOK,
+    REMOVE_TODO_BOOK,
+    ADD_PROGRESS_BOOK,
+    REMOVE_PROGRESS_BOOK,
+    ADD_DONE_BOOK,
+    REMOVE_DONE_BOOK,
     SAVE_BOOKS,
     FETCH_STORED_STATE
 } from './ActionType';
@@ -27,6 +31,17 @@ export const setVisibilityFilter = (payload: string) =>
     action(SET_VISIBILITY_FILTER, payload);
 export const saveVisibilityFilter = () => action(SAVE_VISIBILITY_FILTER);
 
-export const removeBook = (payload: string) => action(REMOVE_BOOK, payload);
-export const addBook = (payload: IBook) => action(ADD_BOOK, payload);
+export const addTodoBook = (payload: IBook) => action(ADD_TODO_BOOK, payload);
+export const removeTodoBook = (payload: string) =>
+    action(REMOVE_TODO_BOOK, payload);
+
+export const addProgressBook = (payload: IBook) =>
+    action(ADD_PROGRESS_BOOK, payload);
+export const removeProgressBook = (payload: string) =>
+    action(REMOVE_PROGRESS_BOOK, payload);
+
+export const addDoneBook = (payload: IBook) => action(ADD_DONE_BOOK, payload);
+export const removeDoneBook = (payload: string) =>
+    action(REMOVE_DONE_BOOK, payload);
+
 export const saveBooks = () => action(SAVE_BOOKS);

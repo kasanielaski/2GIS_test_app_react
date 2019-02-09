@@ -1,7 +1,8 @@
 import {
-    ADD_BOOK,
-    SAVE_BOOKS,
-    FETCH_STORED_STATE
+    FETCH_STORED_STATE,
+    ADD_PROGRESS_BOOK,
+    REMOVE_PROGRESS_BOOK,
+    SAVE_BOOKS
 } from '../actions/ActionType';
 import { IN_PROGRESS } from '../config';
 
@@ -11,7 +12,7 @@ import { IBook } from '../interfaces';
 
 const booksInProgress = (state: IBook[] = [], action: any) => {
     switch (action.type) {
-        case ADD_BOOK:
+        case ADD_PROGRESS_BOOK:
             return [
                 ...state,
                 {
@@ -23,6 +24,10 @@ const booksInProgress = (state: IBook[] = [], action: any) => {
                     status: 'progress'
                 }
             ];
+        case REMOVE_PROGRESS_BOOK:
+            return state.filter(({ id }) => {
+                return id !== action.payload;
+            });
         case SAVE_BOOKS:
             saveLS(IN_PROGRESS, JSON.stringify(state));
             return state;

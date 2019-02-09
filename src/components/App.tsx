@@ -12,7 +12,7 @@ import {
     setVisibilityFilter,
     saveVisibilityFilter
 } from '../actions/Actions';
-import { CHECKSUM } from '../config';
+import { CHECKSUM, IN_PROGRESS, IS_DONE } from '../config';
 
 import Header from './Header';
 import BooksList from './BooksList';
@@ -38,22 +38,68 @@ const mapDispathToProps = {
 };
 
 class App extends Component<any, any> {
-    componentWillMount() {
-        const { items } = require('../data/10_items.json');
-        const hash = md5(items);
-        const storedHash = localStorage.getItem(CHECKSUM);
+    constructor(props: any) {
+        super(props);
+        // const { items } = require('../data/10_items.json');
+        fetch(
+            'https://raw.githubusercontent.com/lastw/test-task/master/data/10-items.json'
+        )
+            .then(r => r.json())
+            .then(({ items }) => {
+                const hash = md5(items);
+                const storedHash = localStorage.getItem(CHECKSUM);
 
-        if (storedHash && storedHash !== hash) {
-            // обнуляем стейт книг в LS
-            this.props.fetchDataset(items);
-            localStorage.clear();
-            localStorage.setItem(CHECKSUM, hash);
-        } else {
-            // подтягиваем последний стейт книг из LS
-            this.props.fetchStoredState();
-            this.props.fetchDataset(items);
-            localStorage.setItem(CHECKSUM, hash);
-        }
+                if (storedHash && storedHash !== hash) {
+                    // обнуляем стейт книг в LS
+                    this.props.fetchDataset(items);
+                    localStorage.clear();
+                    localStorage.setItem(CHECKSUM, hash);
+                } else {
+                    // подтягиваем последний стейт книг из LS
+                    const booksInProgress = JSON.parse(
+                        localStorage.getItem(IN_PROGRESS)!
+                    );
+                    const booksIsDone = JSON.parse(
+                        localStorage.getItem(IS_DONE)!
+                    );
+                    let booksInProgressId = [];
+                    let booksIsDoneId = [];
+
+                    if (booksInProgress) {
+                        booksInProgressId = JSON.parse(
+                            localStorage.getItem(IN_PROGRESS)!
+                        ).map(({ id }: { id: string }) => {
+                            return id;
+                        });
+                    }
+
+                    if (booksIsDone) {
+                        booksIsDoneId = JSON.parse(
+                            localStorage.getItem(IS_DONE)!
+                        ).map(({ id }: { id: string }) => {
+                            return id;
+                        });
+                    }
+
+                    const modifiedBooksId = [
+                        ...booksInProgressId,
+                        ...booksIsDoneId
+                    ];
+                    const reducedItems = items.reduce(
+                        (acc: any, item: any) =>
+                            modifiedBooksId.indexOf(item.id) !== -1
+                                ? acc
+                                : [...acc, item],
+                        []
+                    );
+
+                    reducedItems
+                        ? this.props.fetchDataset(reducedItems)
+                        : this.props.fetchDataset(items);
+                    this.props.fetchStoredState();
+                    localStorage.setItem(CHECKSUM, hash);
+                }
+            });
     }
 
     tagHandler() {

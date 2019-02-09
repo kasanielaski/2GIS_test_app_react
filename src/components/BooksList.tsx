@@ -5,8 +5,12 @@ import styled from 'styled-components';
 import {
     addTag,
     saveTags,
-    removeBook,
-    addBook,
+    addTodoBook,
+    removeTodoBook,
+    addProgressBook,
+    removeProgressBook,
+    addDoneBook,
+    removeDoneBook,
     saveBooks
 } from '../actions/Actions';
 import { IBook } from '../interfaces';
@@ -28,8 +32,13 @@ const mapStateToProps = (state: any) => state;
 const mapDispatchToProps = (dispatch: any) => ({
     addTag: (payload: string) => dispatch(addTag(payload)),
     saveTags: () => dispatch(saveTags()),
-    removeBook: (payload: string) => dispatch(removeBook(payload)),
-    addBook: (payload: IBook) => dispatch(addBook(payload)),
+    addTodoBook: (payload: IBook) => dispatch(addTodoBook(payload)),
+    removeTodoBook: (payload: string) => dispatch(removeTodoBook(payload)),
+    addProgressBook: (payload: IBook) => dispatch(addProgressBook(payload)),
+    removeProgressBook: (payload: string) =>
+        dispatch(removeProgressBook(payload)),
+    addDoneBook: (payload: IBook) => dispatch(addDoneBook(payload)),
+    removeDoneBook: (payload: string) => dispatch(removeDoneBook(payload)),
     saveBooks: () => dispatch(saveBooks())
 });
 
@@ -43,15 +52,21 @@ class BookList extends Component<any, any> {
         switch (book.status) {
             case undefined:
                 // обработчик для книг в начальном статусе
-                this.props.removeBook(book.id);
-                this.props.addBook(book);
+                this.props.removeTodoBook(book.id);
+                this.props.addProgressBook(book);
                 this.props.saveBooks();
                 break;
             case 'progress':
                 // обработчик для книг в прогрессе
+                this.props.removeProgressBook(book.id);
+                this.props.addDoneBook(book);
+                this.props.saveBooks();
                 break;
             case 'done':
                 // обработчик для законченных книг
+                this.props.removeDoneBook(book.id);
+                this.props.addTodoBook(book);
+                this.props.saveBooks();
                 break;
             default:
                 throw new Error(`unknown book status: ${book.status}`);
