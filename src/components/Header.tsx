@@ -21,16 +21,29 @@ const Tab = styled.div`
     }
 `;
 
-const Header = () => (
+const Header = ({
+    toRead,
+    inProgress,
+    isDone
+}: {
+    toRead: number;
+    inProgress: number;
+    isDone: number;
+}) => (
     <Wrapper>
         <Tab>
             {/* @todo router link */}
             To read
             {/* @todo counter */}
+            <span>({toRead})</span>
         </Tab>
-        <Tab>In progress</Tab>
-        <Tab>Done</Tab>
+        <Tab>
+            In progress <span>({inProgress})</span>
+        </Tab>
+        <Tab>
+            Done <span>({isDone})</span>
+        </Tab>
     </Wrapper>
-)
+);
 
 export default Header;

@@ -4,7 +4,12 @@ import styled from 'styled-components';
 // @ts-ignore
 import md5 from 'md5';
 
-import { fetchDataset, clearTags, saveTags, fetchTags } from '../actions/Actions';
+import {
+    fetchDataset,
+    clearTags,
+    saveTags,
+    fetchTags
+} from '../actions/Actions';
 import { CHECKSUM } from '../config';
 
 import Header from './Header';
@@ -47,27 +52,30 @@ class App extends Component<any, any> {
         }
     }
 
-    tagHandler () {
+    tagHandler() {
         this.props.clearTags();
         this.props.saveTags();
     }
 
-    render () {
+    render() {
         return (
             <Wrapper>
-                <Header />
-                {this.props.tags.length > 0
-                    ? <Tags
+                <Header
+                    toRead={this.props.dataset.length}
+                    inProgress={this.props.booksInProgress.length}
+                    isDone={this.props.booksIsDone.length}
+                />
+                {this.props.tags.length > 0 ? (
+                    <Tags
                         tags={this.props.tags}
                         clearTags={() => this.tagHandler()}
                     />
-                    : null
-                }
+                ) : null}
                 <BooksList />
             </Wrapper>
         );
     }
-};
+}
 
 export default connect(
     mapStateToProps,

@@ -1,38 +1,52 @@
 {
-  "name": "2gis_test",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@types/node": "^10.12.21",
-    "@types/react": "^16.8.1",
-    "@types/react-dom": "^16.0.11",
-    "@types/react-redux": "^7.0.1",
-    "@types/react-router-dom": "^4.3.1",
-    "@types/styled-components": "^4.1.8",
-    "md5": "^2.2.1",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-redux": "^6.0.0",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.3",
-    "redux": "^4.0.1",
-    "styled-components": "^4.1.3",
-    "typesafe-actions": "^3.0.0",
-    "typescript": "^3.3.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "name": "2gis_test",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@types/node": "^10.12.21",
+        "@types/react": "^16.8.1",
+        "@types/react-dom": "^16.0.11",
+        "@types/react-redux": "^7.0.1",
+        "@types/react-router-dom": "^4.3.1",
+        "@types/styled-components": "^4.1.8",
+        "husky": "^1.3.1",
+        "lint-staged": "^8.1.3",
+        "md5": "^2.2.1",
+        "prettier": "^1.16.4",
+        "react": "^16.7.0",
+        "react-dom": "^16.7.0",
+        "react-redux": "^6.0.0",
+        "react-router-dom": "^4.3.1",
+        "react-scripts": "2.1.3",
+        "redux": "^4.0.1",
+        "styled-components": "^4.1.3",
+        "typesafe-actions": "^3.0.0",
+        "typescript": "^3.3.1"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+            "prettier --single-quote --write",
+            "git add"
+        ]
+    }
 }
