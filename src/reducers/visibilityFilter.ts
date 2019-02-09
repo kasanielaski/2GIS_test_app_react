@@ -15,7 +15,8 @@ const visibilityFilter = (state: any = '', action: any) => {
             saveLS(VISIBILITY_FILTER, JSON.stringify(state));
             return state;
         case FETCH_STORED_STATE:
-            return (state = JSON.parse(loadLS(VISIBILITY_FILTER)!));
+            const storedState = JSON.parse(loadLS(VISIBILITY_FILTER)!);
+            return (state = storedState ? storedState : '');
         default:
             return state;
     }

@@ -27,7 +27,8 @@ const booksInProgress = (state: IBook[] = [], action: any) => {
             saveLS(IN_PROGRESS, JSON.stringify(state));
             return state;
         case FETCH_STORED_STATE:
-            return (state = [...JSON.parse(loadLS(IN_PROGRESS)!)]);
+            const storedState = JSON.parse(loadLS(IN_PROGRESS)!);
+            return (state = storedState ? storedState : []);
         default:
             return state;
     }

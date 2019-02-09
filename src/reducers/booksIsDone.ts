@@ -11,7 +11,8 @@ const booksIsDone = (state: IBook[] = [], action: any) => {
             saveLS(IS_DONE, JSON.stringify(state));
             return state;
         case FETCH_STORED_STATE:
-            return (state = [...JSON.parse(loadLS(IS_DONE)!)]);
+            const storedState = JSON.parse(loadLS(IS_DONE)!);
+            return (state = storedState ? storedState : []);
         default:
             return state;
     }

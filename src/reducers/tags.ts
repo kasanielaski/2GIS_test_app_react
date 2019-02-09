@@ -23,7 +23,8 @@ const tags = (state: any = [], action: any) => {
             saveLS(TAGS, JSON.stringify(state));
             return state;
         case FETCH_STORED_STATE:
-            return (state = [...JSON.parse(loadLS(TAGS)!)]);
+            const storedState = JSON.parse(loadLS(TAGS)!);
+            return (state = storedState ? storedState : []);
         default:
             return state;
     }
