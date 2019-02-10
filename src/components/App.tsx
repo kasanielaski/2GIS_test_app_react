@@ -13,6 +13,7 @@ import {
     saveVisibilityFilter
 } from '../actions/Actions';
 import { CHECKSUM, IN_PROGRESS, IS_DONE } from '../config';
+import { Store } from '../interfaces';
 
 import Header from './Header';
 import BooksList from './BooksList';
@@ -25,9 +26,8 @@ const Wrapper = styled.div`
     border: 1px solid #999;
 `;
 
-const mapStateToProps = (state: any) => state;
+const mapStateToProps = (state: Store) => state;
 
-// фетчить сохраненные объект книг + теги + фильтры
 const mapDispathToProps = {
     fetchDataset,
     fetchStoredState,
@@ -37,7 +37,7 @@ const mapDispathToProps = {
     saveVisibilityFilter
 };
 
-class App extends Component<any, any> {
+class App extends Component<any> {
     constructor(props: any) {
         super(props);
         // const { items } = require('../data/10_items.json');
@@ -46,12 +46,14 @@ class App extends Component<any, any> {
         )
             .then(r => r.json())
             .then(({ items }) => {
+                const { fetchDataset, fetchStoredState } = this.props;
+
                 const hash = md5(items);
                 const storedHash = localStorage.getItem(CHECKSUM);
 
                 if (storedHash && storedHash !== hash) {
                     // обнуляем стейт книг в LS
-                    this.props.fetchDataset(items);
+                    fetchDataset(items);
                     localStorage.clear();
                     localStorage.setItem(CHECKSUM, hash);
                 } else {
@@ -94,41 +96,50 @@ class App extends Component<any, any> {
                     );
 
                     reducedItems
-                        ? this.props.fetchDataset(reducedItems)
-                        : this.props.fetchDataset(items);
-                    this.props.fetchStoredState();
+                        ? fetchDataset(reducedItems)
+                        : fetchDataset(items);
+                    fetchStoredState();
                     localStorage.setItem(CHECKSUM, hash);
                 }
             });
     }
 
     tagHandler() {
-        this.props.clearTags();
-        this.props.saveTags();
+        const { clearTags, saveTags } = this.props;
+
+        clearTags();
+        saveTags();
     }
 
     changeFilter(payload: string) {
-        this.props.setVisibilityFilter(payload);
-        this.props.saveVisibilityFilter();
+        const { setVisibilityFilter, saveVisibilityFilter } = this.props;
+
+        setVisibilityFilter(payload);
+        saveVisibilityFilter();
     }
 
     render() {
+        const {
+            dataset,
+            booksInProgress,
+            booksIsDone,
+            visibilityFilter,
+            tags
+        } = this.props;
+
         return (
             <Wrapper>
                 <Header
-                    toRead={this.props.dataset.length}
-                    inProgress={this.props.booksInProgress.length}
-                    isDone={this.props.booksIsDone.length}
-                    currentFilter={this.props.visibilityFilter}
+                    readCount={dataset.length}
+                    progressCount={booksInProgress.length}
+                    doneCount={booksIsDone.length}
+                    currentFilter={visibilityFilter}
                     changeFilter={(payload: string) =>
                         this.changeFilter(payload)
                     }
                 />
-                {this.props.tags.length > 0 ? (
-                    <Tags
-                        tags={this.props.tags}
-                        clearTags={() => this.tagHandler()}
-                    />
+                {tags.length > 0 ? (
+                    <Tags tags={tags} clearTags={() => this.tagHandler()} />
                 ) : null}
                 <BooksList />
             </Wrapper>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import intersection from 'lodash/intersection';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -13,7 +14,7 @@ import {
     removeDoneBook,
     saveBooks
 } from '../actions/Actions';
-import { IBook } from '../interfaces';
+import { IBook, Store } from '../interfaces';
 
 import Book from './Book';
 
@@ -27,7 +28,7 @@ const EmptyList = styled.span`
     margin: 0 auto;
 `;
 
-const mapStateToProps = (state: any) => state;
+const mapStateToProps = (state: Store) => state;
 
 const mapDispatchToProps = (dispatch: any) => ({
     addTag: (payload: string) => dispatch(addTag(payload)),
@@ -42,31 +43,43 @@ const mapDispatchToProps = (dispatch: any) => ({
     saveBooks: () => dispatch(saveBooks())
 });
 
-class BookList extends Component<any, any> {
-    tagHandler(payload: string) {
-        this.props.addTag(payload);
-        this.props.saveTags();
+class BookList extends Component<any> {
+    tagHandler(payload: string): void {
+        const { addTag, saveTags } = this.props;
+
+        addTag(payload);
+        saveTags();
     }
 
-    bookHandler(book: IBook) {
+    bookHandler(book: IBook): void {
+        const {
+            removeTodoBook,
+            addProgressBook,
+            removeProgressBook,
+            addDoneBook,
+            removeDoneBook,
+            addTodoBook,
+            saveBooks
+        } = this.props;
+
         switch (book.status) {
             case undefined:
                 // обработчик для книг в начальном статусе
-                this.props.removeTodoBook(book.id);
-                this.props.addProgressBook(book);
-                this.props.saveBooks();
+                removeTodoBook(book.id);
+                addProgressBook(book);
+                saveBooks();
                 break;
             case 'progress':
                 // обработчик для книг в прогрессе
-                this.props.removeProgressBook(book.id);
-                this.props.addDoneBook(book);
-                this.props.saveBooks();
+                removeProgressBook(book.id);
+                addDoneBook(book);
+                saveBooks();
                 break;
             case 'done':
                 // обработчик для законченных книг
-                this.props.removeDoneBook(book.id);
-                this.props.addTodoBook(book);
-                this.props.saveBooks();
+                removeDoneBook(book.id);
+                addTodoBook(book);
+                saveBooks();
                 break;
             default:
                 throw new Error(`unknown book status: ${book.status}`);
@@ -74,17 +87,22 @@ class BookList extends Component<any, any> {
     }
 
     getCurrentList(): IBook[] {
-        switch (this.props.visibilityFilter) {
+        const {
+            visibilityFilter,
+            dataset,
+            booksInProgress,
+            booksIsDone
+        } = this.props;
+
+        switch (visibilityFilter) {
             case '':
-                return this.props.dataset;
+                return dataset;
             case 'progress':
-                return this.props.booksInProgress;
+                return booksInProgress;
             case 'done':
-                return this.props.booksIsDone;
+                return booksIsDone;
             default:
-                throw new Error(
-                    `unknown filter: ${this.props.visibilityFilter}`
-                );
+                throw new Error(`unknown filter: ${visibilityFilter}`);
         }
     }
 
@@ -92,18 +110,26 @@ class BookList extends Component<any, any> {
         return (
             <Wrapper>
                 {this.getCurrentList().length > 0 ? (
-                    this.getCurrentList().map((book: any) => (
-                        <Book
-                            key={book.id}
-                            addTag={(payload: string) =>
-                                this.tagHandler(payload)
-                            }
-                            changeStatus={(book: IBook) =>
-                                this.bookHandler(book)
-                            }
-                            {...book}
-                        />
-                    ))
+                    this.getCurrentList().reduce(
+                        (acc: any, book) =>
+                            intersection(book.tags, this.props.tags).length ===
+                            this.props.tags.length
+                                ? [
+                                      ...acc,
+                                      <Book
+                                          key={book.id}
+                                          addTag={(payload: string) =>
+                                              this.tagHandler(payload)
+                                          }
+                                          changeStatus={(book: IBook) =>
+                                              this.bookHandler(book)
+                                          }
+                                          {...book}
+                                      />
+                                  ]
+                                : acc,
+                        []
+                    )
                 ) : (
                     <EmptyList>List is empty</EmptyList>
                 )}

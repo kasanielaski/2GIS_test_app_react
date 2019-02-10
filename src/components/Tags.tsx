@@ -24,24 +24,15 @@ const Clear = styled.li`
     cursor: pointer;
 `;
 
-const Tags = ({ tags, clearTags }: { tags: string[], clearTags: any }) => {
+const Tags = ({ tags, clearTags }: { tags: string[]; clearTags(): void }) => {
     return (
         <Wrapper>
             Filtered by tags:
             <TagList>
-                {tags.map((tag, index: number) =>
-                        <Tag
-                            key={`${tag}_${index}`}
-                        >
-                            #{tag}
-                        </Tag>
-                    )
-                }
-                <Clear
-                    onClick={() => clearTags()}
-                >
-                    clear
-                </Clear>
+                {tags.map((tag, index: number) => (
+                    <Tag key={`${tag}_${index}`}>#{tag}</Tag>
+                ))}
+                <Clear onClick={() => clearTags()}>clear</Clear>
             </TagList>
         </Wrapper>
     );

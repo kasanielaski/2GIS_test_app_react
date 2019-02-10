@@ -66,10 +66,11 @@ const Book = ({
     description: string;
     tags: string[];
     status?: string;
-    addTag: (payload: string) => void;
-    changeStatus: (payload: any) => void;
+    addTag(payload: string): void;
+    changeStatus(payload: any): void;
 }) => {
     let currentStatus;
+
     switch (status) {
         case undefined:
             currentStatus = 'start reading';

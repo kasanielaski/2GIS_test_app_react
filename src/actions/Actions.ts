@@ -16,7 +16,7 @@ import {
     SAVE_BOOKS,
     FETCH_STORED_STATE
 } from './ActionType';
-import { IBook } from '../interfaces';
+import { IBook, Visibility } from '../interfaces';
 
 export const fetchDataset = (payload: Object[]) =>
     action(FETCH_DATASET, payload);
@@ -27,7 +27,7 @@ export const addTag = (payload: string) => action(ADD_TAG, payload);
 export const clearTags = () => action(CLEAR_TAGS);
 export const saveTags = () => action(SAVE_TAGS);
 
-export const setVisibilityFilter = (payload: string) =>
+export const setVisibilityFilter = (payload: Visibility) =>
     action(SET_VISIBILITY_FILTER, payload);
 export const saveVisibilityFilter = () => action(SAVE_VISIBILITY_FILTER);
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Visibility } from '../interfaces';
 
 const Wrapper = styled.div`
     display: flex;
@@ -26,16 +27,16 @@ const Tab = styled.div`
 `;
 
 const Header = ({
-    toRead,
-    inProgress,
-    isDone,
+    readCount,
+    progressCount,
+    doneCount,
     changeFilter,
     currentFilter
 }: {
-    toRead: number;
-    inProgress: number;
-    isDone: number;
-    changeFilter: any;
+    readCount: number;
+    progressCount: number;
+    doneCount: number;
+    changeFilter(payload: Visibility): void;
     currentFilter: string;
 }) => (
     <Wrapper>
@@ -43,19 +44,19 @@ const Header = ({
             {/* @todo router link */}
             To read
             {/* @todo counter */}
-            <span>({toRead})</span>
+            <span>({readCount})</span>
         </Tab>
         <Tab
             onClick={() => changeFilter('progress')}
             isActive={currentFilter === 'progress'}
         >
-            In progress <span>({inProgress})</span>
+            In progress <span>({progressCount})</span>
         </Tab>
         <Tab
             onClick={() => changeFilter('done')}
             isActive={currentFilter === 'done'}
         >
-            Done <span>({isDone})</span>
+            Done <span>({doneCount})</span>
         </Tab>
     </Wrapper>
 );

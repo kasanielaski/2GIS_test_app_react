@@ -1,4 +1,4 @@
-export type Status = 'progress' | 'done';
+export type BookStatus = 'progress' | 'done';
 
 export type Visibility = '' | 'progress' | 'done';
 
@@ -8,5 +8,13 @@ export interface IBook {
     title: string;
     description: string;
     tags: string[];
-    status?: any;
+    status?: BookStatus;
+}
+
+export interface Store {
+    booksInProgress: IBook[];
+    booksIsDone: IBook[];
+    dataset: IBook[];
+    tags: string[];
+    visibilityFilter: Visibility;
 }
