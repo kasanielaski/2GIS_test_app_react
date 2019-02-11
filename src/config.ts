@@ -1,3 +1,6 @@
+/**
+ * LS key constants
+ */
 export const CHECKSUM: string = 'CHECKSUM';
 
 export const IN_PROGRESS: string = 'IN_PROGRESS';

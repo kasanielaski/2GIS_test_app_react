@@ -8,8 +8,7 @@ import { TAGS } from '../config';
 
 import { saveLS, loadLS } from '../helpers/syncLS';
 
-// переделать стейт на тип Set без дубликатов
-const tags = (state: any = [], action: any) => {
+const tags = (state: string[] = [], action: any) => {
     switch (action.type) {
         case ADD_TAG:
             if (state.includes(action.payload)) {
@@ -23,7 +22,7 @@ const tags = (state: any = [], action: any) => {
             saveLS(TAGS, JSON.stringify(state));
             return state;
         case FETCH_STORED_STATE:
-            const storedState = JSON.parse(loadLS(TAGS)!);
+            const storedState: string[] = JSON.parse(loadLS(TAGS)!);
             return (state = storedState ? storedState : []);
         default:
             return state;

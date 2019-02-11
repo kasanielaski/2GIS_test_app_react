@@ -13,7 +13,7 @@ import {
     saveVisibilityFilter
 } from '../actions/Actions';
 import { CHECKSUM, IN_PROGRESS, IS_DONE } from '../config';
-import { Store } from '../interfaces';
+import { IStore, IBook, IAppProps, Visibility } from '../interfaces';
 
 import Header from './Header';
 import BooksList from './BooksList';
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     border: 1px solid #999;
 `;
 
-const mapStateToProps = (state: Store) => state;
+const mapStateToProps = (state: IStore) => state;
 
 const mapDispathToProps = {
     fetchDataset,
@@ -37,20 +37,23 @@ const mapDispathToProps = {
     saveVisibilityFilter
 };
 
-class App extends Component<any> {
-    constructor(props: any) {
+class App extends Component<IAppProps> {
+    constructor(props: IAppProps) {
         super(props);
         // const { items } = require('../data/10_items.json');
         fetch(
             'https://raw.githubusercontent.com/lastw/test-task/master/data/10-items.json'
         )
             .then(r => r.json())
-            .then(({ items }) => {
+            .then(({ items }: { items: IBook[] }) => {
                 const { fetchDataset, fetchStoredState } = this.props;
 
-                const hash = md5(items);
+                const hash: string = md5(items);
                 const storedHash = localStorage.getItem(CHECKSUM);
 
+                /**
+                 * проверка на новый сурс данных
+                 */
                 if (storedHash && storedHash !== hash) {
                     // обнуляем стейт книг в LS
                     fetchDataset(items);
@@ -64,8 +67,8 @@ class App extends Component<any> {
                     const booksIsDone = JSON.parse(
                         localStorage.getItem(IS_DONE)!
                     );
-                    let booksInProgressId = [];
-                    let booksIsDoneId = [];
+                    let booksInProgressId: IBook[] = [];
+                    let booksIsDoneId: IBook[] = [];
 
                     if (booksInProgress) {
                         booksInProgressId = JSON.parse(
@@ -87,7 +90,7 @@ class App extends Component<any> {
                         ...booksInProgressId,
                         ...booksIsDoneId
                     ];
-                    const reducedItems = items.reduce(
+                    const reducedItems: IBook[] = items.reduce(
                         (acc: any, item: any) =>
                             modifiedBooksId.indexOf(item.id) !== -1
                                 ? acc
@@ -111,7 +114,7 @@ class App extends Component<any> {
         saveTags();
     }
 
-    changeFilter(payload: string) {
+    changeFilter(payload: Visibility) {
         const { setVisibilityFilter, saveVisibilityFilter } = this.props;
 
         setVisibilityFilter(payload);
@@ -134,7 +137,7 @@ class App extends Component<any> {
                     progressCount={booksInProgress.length}
                     doneCount={booksIsDone.length}
                     currentFilter={visibilityFilter}
-                    changeFilter={(payload: string) =>
+                    changeFilter={(payload: Visibility) =>
                         this.changeFilter(payload)
                     }
                 />

@@ -14,7 +14,7 @@ import {
     removeDoneBook,
     saveBooks
 } from '../actions/Actions';
-import { IBook, Store } from '../interfaces';
+import { IBook, IStore, IBooksListProps } from '../interfaces';
 
 import Book from './Book';
 
@@ -28,7 +28,7 @@ const EmptyList = styled.span`
     margin: 0 auto;
 `;
 
-const mapStateToProps = (state: Store) => state;
+const mapStateToProps = (state: IStore) => state;
 
 const mapDispatchToProps = (dispatch: any) => ({
     addTag: (payload: string) => dispatch(addTag(payload)),
@@ -43,7 +43,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     saveBooks: () => dispatch(saveBooks())
 });
 
-class BookList extends Component<any> {
+class BookList extends Component<IBooksListProps> {
     tagHandler(payload: string): void {
         const { addTag, saveTags } = this.props;
 

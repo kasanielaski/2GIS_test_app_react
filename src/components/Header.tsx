@@ -41,10 +41,7 @@ const Header = ({
 }) => (
     <Wrapper>
         <Tab onClick={() => changeFilter('')} isActive={currentFilter === ''}>
-            {/* @todo router link */}
-            To read
-            {/* @todo counter */}
-            <span>({readCount})</span>
+            To read <span>({readCount})</span>
         </Tab>
         <Tab
             onClick={() => changeFilter('progress')}

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { IBook } from '../interfaces';
 
 const Wrapper = styled.div`
     display: flex;
@@ -67,7 +68,7 @@ const Book = ({
     tags: string[];
     status?: string;
     addTag(payload: string): void;
-    changeStatus(payload: any): void;
+    changeStatus(payload: IBook): void;
 }) => {
     let currentStatus;
 

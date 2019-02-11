@@ -4,10 +4,11 @@ import {
     FETCH_STORED_STATE
 } from '../actions/ActionType';
 import { VISIBILITY_FILTER } from '../config';
+import { Visibility } from '../interfaces';
 
 import { saveLS, loadLS } from '../helpers/syncLS';
 
-const visibilityFilter = (state: any = '', action: any) => {
+const visibilityFilter = (state: Visibility = '', action: any) => {
     switch (action.type) {
         case SET_VISIBILITY_FILTER:
             return (state = action.payload);
@@ -15,7 +16,9 @@ const visibilityFilter = (state: any = '', action: any) => {
             saveLS(VISIBILITY_FILTER, JSON.stringify(state));
             return state;
         case FETCH_STORED_STATE:
-            const storedState = JSON.parse(loadLS(VISIBILITY_FILTER)!);
+            const storedState: Visibility = JSON.parse(
+                loadLS(VISIBILITY_FILTER)!
+            );
             return (state = storedState ? storedState : '');
         default:
             return state;
